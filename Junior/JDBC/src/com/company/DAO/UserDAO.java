@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Mykolai_Lytvyn on 01.02.2016.
  */
 public interface UserDAO {
-    public List<User> selectAll();
+    public List<User> selectAll() throws DBSystemException;
     public List<User> deleteById(int id) throws SQLException, DBSystemException;
     public void insert(User users) throws DBSystemException, NotUniqueUserLoginException, NotUniqueEmailException;
 }

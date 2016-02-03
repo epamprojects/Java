@@ -16,8 +16,3 @@ If you have exeption, that   informs  about problem with acess try use command
 
   mysql.exe -u <user> -p <password>
 
-______________________________________________________
-
-Adding dependencies of sqlDriver Implemented maven
-
-______________________________________________________
