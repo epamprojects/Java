@@ -1,0 +1,18 @@
+
+After download server MySql.Before it starting  must run the command
+
+    mysqld.exe --initialize-insecure
+
+from  the folder "bin/" each situated in folder with installed server. This commamd created server tables.
+Then shut be executed
+
+    mysqld.exe
+
+If you want open mysql command line , you need executed command
+
+  mysql.exe
+
+If you have exeption, that   informs  about problem with acess try use command
+
+  mysql.exe -u <user> -p <password>
+

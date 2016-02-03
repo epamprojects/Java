@@ -15,7 +15,7 @@ public class UserDaoJdbc implements UserDAO {
 
     private static final String LOGIN = "admin";
     private static final String PASSWORD = "root";
-    private static final String JDBC_URL = "JDBC_URL";
+    private static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/production_eshop";
     private static final String SELECT_ALL_SQL = "SELECT * FROM User";
 
     //define one connection
@@ -81,6 +81,10 @@ public class UserDaoJdbc implements UserDAO {
         } catch (SQLException ex){
             JdbcUtils.rollbackQuetly(connect);
             throw new DBSystemException("Can't execute SQL query = ", SELECT_ALL_SQL);
+        }finally {
+            JdbcUtils.closeQuetly(rs);
+            JdbcUtils.closeQuetly(statement);
+            JdbcUtils.closeQuetly(connect);
         }
     }
 
