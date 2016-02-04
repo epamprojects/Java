@@ -16,6 +16,7 @@ public class UserDaoJdbc implements UserDAO {
     private static final String PASSWORD = "";
     private static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/JDBC";
     private static final String SELECT_ALL_SQL = "SELECT * FROM Users";
+    private static final String DELETE_BY_ID = "DELETE FROM Users WHERE id = ?";
 
     static{
         JdbcUtils.initDriver();
@@ -33,8 +34,6 @@ public class UserDaoJdbc implements UserDAO {
     public List<User> selectAll() throws DBSystemException {
         //make connection
         Connection connect = getConnection();
-        //An object that represents a precompiled SQL statement.
-        PreparedStatement ps = null;
         //The object used for executing a static SQL statement and returning the results it produces.
         Statement statement = null;
         //result execution PreparedStatement
@@ -52,9 +51,16 @@ public class UserDaoJdbc implements UserDAO {
             //if don't use this flag after every sql-query autocommit will be set
             connect.setAutoCommit(false);
 
+            //using Statement. It include two study:
+                //create
+                //execute
+            //
+            //--------------------------------------
             //create and execute sql-query
             statement = connect.createStatement();
             rs = statement.executeQuery(SELECT_ALL_SQL);
+            //--------------------------------------
+
 
             while (rs.next()){
                 //get data from sql-query
@@ -86,7 +92,7 @@ public class UserDaoJdbc implements UserDAO {
     }
 
     @Override
-    public List<User> deleteById(int id) throws DBSystemException{
+    public int deleteById(int id) throws DBSystemException{
         //make connection
         Connection connect = getConnection();
         //An object that represents a precompiled SQL statement.
@@ -108,29 +114,20 @@ public class UserDaoJdbc implements UserDAO {
             //if don't use this flag after every sql-query autocommit will be set
             connect.setAutoCommit(false);
 
-            //create and execute sql-query
-            statement = connect.createStatement();
-            rs = statement.executeQuery(SELECT_ALL_SQL);
-
-            while (rs.next()){
-                //get data from sql-query
-                int _id = rs.getInt("id");
-                String login = rs.getString("login");
-                String email = rs.getString("email");
-
-                //set data to model
-                User user = new User(_id);
-                user.setEmail(login);
-                user.setEmail(email);
-
-                //save in collection
-                 users.add(user);
-            }
+            // Prepeare statement have meaning when query using a not once
+            //using PrepeareStatement. It include thre study:
+            //prepeare statement, where include query with empty param, which define as "?"
+            //execute updata
+            //
+            //--------------------------------------
+            ps = connect.prepareStatement(DELETE_BY_ID);
+            ps.setInt(1, id);
+            int result = ps.executeUpdate();
 
             //commit for DB
             connect.commit();
             //if sql-query will be empty return empty collection
-            return  users;
+            return  result;
         } catch (SQLException ex){
             JdbcUtils.rollbackQuetly(connect);
             throw new DBSystemException("Can't execute SQL query = ", SELECT_ALL_SQL);
