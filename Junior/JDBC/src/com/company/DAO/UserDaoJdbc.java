@@ -2,7 +2,6 @@ package com.company.DAO;
 
 import com.company.DAO.Exeptions.DBSystemException;
 import com.company.DAO.Exeptions.NotUniqueUserLoginException;
-import sun.jdbc.odbc.JdbcOdbcUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,22 +17,16 @@ public class UserDaoJdbc implements UserDAO {
     private static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/JDBC";
     private static final String SELECT_ALL_SQL = "SELECT * FROM Users";
 
+    static{
+        JdbcUtils.initDriver();
+    }
     //define one connection
     private Connection getConnection() throws  DBSystemException {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
             return DriverManager.getConnection(JDBC_URL, LOGIN, PASSWORD);
         } catch (SQLException ex) {
-            System.out.println("this eroor");
-            throw new DBSystemException("Ca't create connection", ex);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            throw new DBSystemException("Ca'nt create connection", ex);
         }
-        throw new RuntimeException("Ca't create connection");
     }
 
     @Override
@@ -148,7 +141,7 @@ public class UserDaoJdbc implements UserDAO {
         }
     }
 
-     @Override
+    @Override
     public void insert(User users) throws DBSystemException, NotUniqueUserLoginException {
 
     }
