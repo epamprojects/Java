@@ -1,6 +1,7 @@
 package com.company.DAO;
 
 import com.company.DAO.Exeptions.DBSystemException;
+import com.company.DAO.Exeptions.NotUniqueEmailException;
 import com.company.DAO.Exeptions.NotUniqueUserLoginException;
 
 import java.sql.*;
@@ -115,9 +116,9 @@ public class UserDaoJdbc implements UserDAO {
             connect.setAutoCommit(false);
 
             // Prepeare statement have meaning when query using a not once
-            //using PrepeareStatement. It include thre study:
-            //prepeare statement, where include query with empty param, which define as "?"
-            //execute updata
+            //using PrepareStatement. It include three study:
+            //prepare statement, where include query with empty param, which define as "?"
+            //execute update
             //
             //--------------------------------------
             ps = connect.prepareStatement(DELETE_BY_ID);
@@ -139,7 +140,9 @@ public class UserDaoJdbc implements UserDAO {
     }
 
     @Override
-    public void insert(User users) throws DBSystemException, NotUniqueUserLoginException {
+    public void insert(User users) throws DBSystemException, NotUniqueUserLoginException, NotUniqueEmailException {
 
     }
+
+
 }
