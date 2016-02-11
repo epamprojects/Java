@@ -2,6 +2,7 @@ package com.company.UserDaoClasses;
 
 import com.company.ConnectionFactoryClasses.ConnectionFactoryFactory;
 import com.company.UserClasses.User;
+import com.company.interfaces.ConnectionFactory;
 import com.company.interfaces.UserDAO;
 
 import java.sql.*;
@@ -11,19 +12,23 @@ import java.util.List;
 /**
  * Created by Mykolai_Lytvyn on 02.02.2016.
  */
-public class UserDAOCJdbc implements UserDAO {
+public class UserDAOClass implements UserDAO {
     private static final String SELECT_ALL_SQL = "SELECT * FROM Users";
 
     private Connection connection;
 
-    {
-        try {
-            connection = ConnectionFactoryFactory.newConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    //define connection provider for DAO
+    public void setConnection(ConnectionFactoryFactory.FactoryType factoryType){
+        {
+            try {
+                  ConnectionFactoryFactory.setType(factoryType);
+                  connection = ConnectionFactoryFactory.newConnection();
+            } catch (SQLException e) {
+                System.out.println("problem with sql");
+                e.printStackTrace();
+            }
         }
-    }
-
+    };
     //define one connection
     private Connection getConnection() {
         return connection;

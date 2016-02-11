@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 
 /*
-* abstract factory that retun abstract factory with connection
+* abstract factory that return abstract factory with connection
 * */
 public class ConnectionFactoryFactory {
 
@@ -20,8 +20,9 @@ public class ConnectionFactoryFactory {
     //set default value
     public static FactoryType curentType = FactoryType.RAW;
 
-    public static void setType(FactoryType type) {
+    public static ConnectionFactory setType(FactoryType type) {
         curentType = type;
+        return null;
     }
 
     public static Connection newConnection() throws SQLException {
