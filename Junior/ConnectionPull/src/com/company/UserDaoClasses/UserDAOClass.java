@@ -122,6 +122,8 @@ public class UserDAOClass implements UserDAO {
         PreparedStatement ps = null;
 
         try {
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            connection.setAutoCommit(false );
             if (existWithLogin0(connection, user.getLogin())) {
                 throw new NotUniqueLogin("Not unique login: ", user.getLogin());
             }
@@ -132,13 +134,14 @@ public class UserDAOClass implements UserDAO {
 
             ps = connection.prepareStatement(INSERT_SQL);
 
-            ps.setInt(1, 7);
+            ps.setInt(1, 10);
             ps.setString(2, user.getLogin());
             ps.setString(3, user.getEmail());
             ps.executeUpdate();
+            connection.commit();
             connection.close();
         } catch (DBSystemException ex) {
-            System.out.println(user + "not added");
+            System.out.println( ex + "not added");
         };
 
         return false;

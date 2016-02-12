@@ -11,7 +11,7 @@ import java.sql.SQLException;
  */
 public class ConnectionFactoryDbcp implements ConnectionFactory {
     private static String JDBC_URL = "jdbc:mysql://127.0.0.1:6606";
-    private static String LOGIN = "username";
+    private static String LOGIN = "root";
     private static String PASSWORD = "password";
     private static String DRIVER_CLASS = "com.mysql.jdbc.Driver";
     private final  BasicDataSource dataSource;
