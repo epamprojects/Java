@@ -1,6 +1,9 @@
 package com.company.UserDaoClasses;
 
 import com.company.ConnectionFactoryClasses.ConnectionFactoryFactory;
+import com.company.Exceptions.DBSystemException;
+import com.company.Exceptions.NotUniqueEmail;
+import com.company.Exceptions.NotUniqueLogin;
 import com.company.UserClasses.User;
 import com.company.interfaces.ConnectionFactory;
 import com.company.interfaces.UserDAO;
@@ -14,21 +17,42 @@ import java.util.List;
  */
 public class UserDAOClass implements UserDAO {
     private static final String SELECT_ALL_SQL = "SELECT * FROM Users";
+    private static final String SELECT_BY_LOGIN = "SELECT * FROM Users WHERE Login = ?";
+    private static final String SELECT_BY_EMAIL = "SELECT * FROM Users WHERE Email = ?";
 
+    private static final String INSERT_SQL = "INSERT INTO Users" + "(Id, Email, Login) VALUES" + "(?,?,?)";
     private Connection connection;
 
+
+    private boolean existWithLogin0(Connection connection, String login) throws NotUniqueLogin, SQLException {
+        PreparedStatement ps = connection.prepareStatement(SELECT_BY_LOGIN);
+        ps.setString(1, login);
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    };
+
+    private boolean existWithEmail0(Connection connection, String email) throws NotUniqueEmail, SQLException {
+        PreparedStatement ps = connection.prepareStatement(SELECT_BY_EMAIL);
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    };
+
     //define connection provider for DAO
-    public void setConnection(ConnectionFactoryFactory.FactoryType factoryType){
+    public void setConnection(ConnectionFactoryFactory.FactoryType factoryType) {
         {
             try {
-                  ConnectionFactoryFactory.setType(factoryType);
-                  connection = ConnectionFactoryFactory.newConnection();
+                ConnectionFactoryFactory.setType(factoryType);
+                connection = ConnectionFactoryFactory.newConnection();
             } catch (SQLException e) {
                 System.out.println("problem with sql");
                 e.printStackTrace();
             }
         }
-    };
+    }
+
+    ;
+
     //define one connection
     private Connection getConnection() {
         return connection;
@@ -91,4 +115,32 @@ public class UserDAOClass implements UserDAO {
         return users;
 
     }
+
+    @Override
+    public boolean insert(User user) throws NotUniqueLogin, NotUniqueEmail, SQLException {
+        Connection connection = getConnection();
+        PreparedStatement ps = null;
+
+        try {
+            if (existWithLogin0(connection, user.getLogin())) {
+                throw new NotUniqueLogin("Not unique login: ", user.getLogin());
+            }
+
+            if (existWithEmail0(connection, user.getEmail())) {
+                throw new NotUniqueEmail("Not unique login: ", user.getEmail());
+            }
+
+            ps = connection.prepareStatement(INSERT_SQL);
+
+            ps.setInt(1, 7);
+            ps.setString(2, user.getLogin());
+            ps.setString(3, user.getEmail());
+            ps.executeUpdate();
+            connection.close();
+        } catch (DBSystemException ex) {
+            System.out.println(user + "not added");
+        };
+
+        return false;
+    };
 }

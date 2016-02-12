@@ -2,6 +2,7 @@ package com.company.interfaces;
 
 import com.company.UserClasses.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -9,4 +10,5 @@ import java.util.List;
  */
 public interface UserDAO {
     public List<User> selectAll();
+    public boolean insert(User user) throws SQLException;
 }
