@@ -1,5 +1,6 @@
 package com.company;
 
+
 import com.company.ConnectionFactoryClasses.ConnectionFactoryFactory;
 import com.company.UserClasses.User;
 import com.company.UserDaoClasses.UserDAOClass;
@@ -20,7 +21,7 @@ public class Main {
         List<User> users = userDao.selectAll();
         System.out.println(users.size());
 
-        userDao.insert(newUser);
-        System.out.println(users.size());
+        /*userDao.insert(newUser);
+        System.out.println(users.size());*/
     }
 }

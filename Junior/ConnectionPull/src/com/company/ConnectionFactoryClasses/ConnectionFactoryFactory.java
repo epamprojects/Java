@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class ConnectionFactoryFactory {
 
     //enum with all class wich implement interface ConnectionFactory
-    public static enum FactoryType {RAW, DBCP, JDBC}
+    public static enum FactoryType {RAW, JDBC}
 
     //set default value
     public static FactoryType curentType = FactoryType.RAW;
@@ -29,9 +29,6 @@ public class ConnectionFactoryFactory {
         Connection result = null;
 
         switch (curentType) {
-            case DBCP:
-                result = new ConnectionFactoryDbcp().newConnection();
-                break;
             case JDBC:
                 result = new ConnectionFactoryJDBC().newConnection();
                 break;
