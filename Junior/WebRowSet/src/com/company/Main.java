@@ -22,7 +22,7 @@ public class Main {
 
         WebRowSet webRowSet_0 = new WebRowSetImpl();
         getAllUsers(webRowSet_0);
-       // toXML(webRowSet_0);
+        System.out.println(toXML(webRowSet_0));
     }
 
 
