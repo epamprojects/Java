@@ -1,8 +1,3 @@
-package inection;
-
-import interfaces.Quiz;
-import interfaces.QuizDao;
-
 import java.util.*;
 
 /**

@@ -1,7 +1,3 @@
-package inection;
-
-import interfaces.Quiz;
-
 /**
  * Created by Mykolai_Lytvyn on 02.03.2016.
  */
