@@ -5,6 +5,6 @@
     </head>
     <body>
     <h1>qwer</h1>
-
+    ${Quiz}
     </body>
 </html>
