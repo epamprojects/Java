@@ -18,7 +18,7 @@ import java.io.IOException;
 public class QuizController extends HttpServlet {
     public static String PARAM_ID = "id";
     public static String PAGE_OK = "quiz.jsp";
-    public static String PAGE_ERROR = "error.html";
+    public static String PAGE_ERROR = "quizAll.jsp";
     public static String ATTRIBUTE_QUIZ = "Quiz";
 
 
@@ -28,6 +28,8 @@ public class QuizController extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // get data from param (?id=id)
+                        //param
+        // param can be  on the side browser and side of server
         String idStr = request.getParameter(PARAM_ID);
         if (idStr != null && !idStr.equals("")) {
             try {
@@ -36,6 +38,8 @@ public class QuizController extends HttpServlet {
 
                 if (quiz != null) {
                     // this is map using when be transmitted data between server component
+                            //attribute
+                        // attribute can be only on the side of server
                     request.setAttribute(ATTRIBUTE_QUIZ, quiz);
                     //management capabilities container (in our case Tomcat) from component
                     request.getRequestDispatcher(PAGE_OK).forward(request, response);
@@ -43,9 +47,13 @@ public class QuizController extends HttpServlet {
             } catch (Exception ex) {
                 System.out.println("Server exception");
             }
-        }else{
-            response.sendRedirect(PAGE_ERROR);
         }
+        // ERROR
+
+        // response.sendRedirect  external redirect
+        // request.getRequestDispatcher internal redirect
+        response.sendRedirect(PAGE_ERROR);
+
     }
 
     protected Quiz selectById(final Integer id) {

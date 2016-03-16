@@ -5,8 +5,13 @@
     <title>ml</title>
 </head>
 <body>
-  <c:forEach items="${Quiz_ALL}" var="quiz">
+  <div>All Quiz</div>
+  <c:forEach items="${Quiz}" var="quiz">
+        <%-- in JSP getter without 'get' become value.
+         quiz.getName => quiz.name
+         --%>
        <div>${quiz.name}</div>
+
   </c:forEach>
 </body>
 </html>
