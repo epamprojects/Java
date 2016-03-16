@@ -27,7 +27,7 @@ public class QuizController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request);
+        // get data from param (?id=id)
         String idStr = request.getParameter(PARAM_ID);
         if (idStr != null && !idStr.equals("")) {
             try {

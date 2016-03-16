@@ -30,6 +30,7 @@ public class QuizAllController extends HttpServlet {
             request.setAttribute(ATTRIBUTE_QUIZ, quizs);
             request.getRequestDispatcher(PAGE_OK).forward(request, response);
         } catch (Exception ex) {
+            ex.printStackTrace();
             response.sendRedirect(PAGE_ERROR);
         }
     }
